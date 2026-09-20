@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 480" role="img" aria-labelledby="ht"><title id="ht">Illustration: a county courthouse, a claim document with an approval seal, and a disbursement check returning to a house</title>
+<defs>
+<linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4E8DC"/><stop offset="1" stop-color="#C7CEBC"/></linearGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E3CD98"/><stop offset="1" stop-color="#C6A767"/></linearGradient>
+</defs>
+<!-- glow -->
+<circle cx="300" cy="230" r="200" fill="#F4F6F1" fill-opacity=".06"/>
+<circle cx="300" cy="230" r="150" fill="#F4F6F1" fill-opacity=".05"/>
+<!-- courthouse -->
+<g transform="translate(250 60)">
+  <path d="M0 92 L130 30 L260 92 Z" fill="url(#hg)"/>
+  <path d="M30 86 L130 40 L230 86" fill="none" stroke="#3F7174" stroke-width="2"/>
+  <circle cx="130" cy="70" r="11" fill="none" stroke="#3F7174" stroke-width="2"/>
+  <rect x="6" y="92" width="248" height="14" fill="#F4F6F1"/>
+  <g fill="#E4E8DC"><rect x="20.0" y="106" width="16" height="120"/><rect x="60.8" y="106" width="16" height="120"/><rect x="101.6" y="106" width="16" height="120"/><rect x="142.4" y="106" width="16" height="120"/><rect x="183.2" y="106" width="16" height="120"/><rect x="224.0" y="106" width="16" height="120"/></g>
+  <g fill="#C7CEBC"><rect x="32.0" y="106" width="4" height="120"/><rect x="72.8" y="106" width="4" height="120"/><rect x="113.6" y="106" width="4" height="120"/><rect x="154.4" y="106" width="4" height="120"/><rect x="195.2" y="106" width="4" height="120"/><rect x="236.0" y="106" width="4" height="120"/></g>
+  <rect x="0" y="226" width="260" height="12" fill="#F4F6F1"/>
+  <rect x="-12" y="238" width="284" height="12" fill="#E4E8DC"/>
+  <rect x="-24" y="250" width="308" height="12" fill="#C7CEBC"/>
+</g>
+<!-- dotted path from courthouse to house -->
+<path d="M270 330 C 210 400, 140 400, 96 372" fill="none" stroke="#E3CD98" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
+<!-- claim document -->
+<g transform="translate(58 96) rotate(-7)">
+  <rect x="6" y="8" width="200" height="252" rx="10" fill="#0E1A1B" fill-opacity=".25"/>
+  <rect width="200" height="252" rx="10" fill="#FFFFFF"/>
+  <rect width="200" height="44" rx="10" fill="#E4E8DC"/><rect y="30" width="200" height="14" fill="#E4E8DC"/>
+  <text x="18" y="28" font-family="Georgia,serif" font-size="13" font-weight="700" fill="#224142" letter-spacing=".5">CLAIM FOR</text>
+  <text x="18" y="66" font-family="Georgia,serif" font-size="15" font-weight="700" fill="#224142">Excess Proceeds</text>
+  <g fill="#C7CEBC"><rect x="18" y="84" width="150" height="7" rx="3.5"/><rect x="18" y="100" width="164" height="7" rx="3.5"/><rect x="18" y="116" width="120" height="7" rx="3.5"/></g>
+  <rect x="18" y="138" width="164" height="40" rx="6" fill="#F1F3EC" stroke="#C7CEBC"/>
+  <g fill="#3F7174"><rect x="28" y="150" width="60" height="6" rx="3"/><rect x="28" y="162" width="40" height="6" rx="3"/></g>
+  <rect x="112" y="150" width="60" height="18" rx="4" fill="#224142"/>
+  <g fill="#C7CEBC"><rect x="18" y="194" width="90" height="6" rx="3"/><rect x="18" y="208" width="70" height="6" rx="3"/></g>
+  <path d="M18 236 c10 -12 18 8 28 -4 s16 6 26 -2" fill="none" stroke="#224142" stroke-width="2" stroke-linecap="round"/>
+  <!-- seal -->
+  <g transform="translate(160 214)"><circle r="26" fill="url(#gold)"/><circle r="19" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M-8 0 l6 6 l11 -12" fill="none" stroke="#172D2F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></g>
+</g>
+<!-- check -->
+<g transform="translate(250 300) rotate(4)">
+  <rect x="6" y="8" width="270" height="118" rx="10" fill="#0E1A1B" fill-opacity=".25"/>
+  <rect width="270" height="118" rx="10" fill="#FFFFFF"/>
+  <rect width="270" height="14" rx="7" fill="url(#gold)"/><rect y="7" width="270" height="7" fill="#C6A767"/>
+  <text x="16" y="42" font-family="Georgia,serif" font-size="9.5" fill="#556a6b" letter-spacing="1">PAY TO THE ORDER OF</text>
+  <rect x="16" y="50" width="150" height="9" rx="4.5" fill="#304446"/>
+  <rect x="180" y="32" width="74" height="28" rx="5" fill="#F1F3EC" stroke="#C6A767" stroke-width="1.5"/>
+  <text x="217" y="51" text-anchor="middle" font-family="Georgia,serif" font-size="15" font-weight="700" fill="#224142">$</text>
+  <g fill="#C7CEBC"><rect x="16" y="74" width="200" height="6" rx="3"/><rect x="16" y="98" width="90" height="6" rx="3"/></g>
+  <path d="M170 102 c8 -10 14 6 22 -3 s12 5 20 -2 s10 4 18 0" fill="none" stroke="#224142" stroke-width="1.8" stroke-linecap="round"/>
+</g>
+<!-- house -->
+<g transform="translate(26 318)">
+  <circle cx="70" cy="62" r="66" fill="#172D2F" fill-opacity=".45"/>
+  <path d="M22 62 L70 24 L118 62" fill="none" stroke="#E3CD98" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 56 V104 H108 V56" fill="#F4F6F1"/>
+  <rect x="60" y="74" width="20" height="30" rx="2" fill="#3F7174"/>
+  <rect x="40" y="68" width="14" height="14" rx="2" fill="#C7CEBC"/><rect x="86" y="68" width="14" height="14" rx="2" fill="#C7CEBC"/>
+</g>
+<!-- sparkles -->
+<g fill="#E3CD98"><path d="M520 70 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4z"/><path d="M40 60 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 l7 -3z" fill-opacity=".7"/></g>
+</svg>

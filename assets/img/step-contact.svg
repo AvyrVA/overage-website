@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-labelledby="t1"><title id="t1">Illustration: a letter naming the property and sale, beside a public-record map with the parcel marked</title>
+<circle cx="240" cy="180" r="150" fill="#E4E8DC"/>
+<!-- map card -->
+<g transform="translate(250 60) rotate(5)">
+  <rect x="5" y="7" width="180" height="200" rx="12" fill="#224142" fill-opacity=".14"/>
+  <rect width="180" height="200" rx="12" fill="#FFFFFF" stroke="#DDE2D6" stroke-width="1.5"/>
+  <g fill="none" stroke="#C7CEBC" stroke-width="1.5"><rect x="16" y="16" width="148" height="150" rx="4"/><path d="M16 66 H164 M16 116 H164 M65 16 V166 M115 16 V166"/></g>
+  <rect x="66" y="67" width="48" height="48" fill="#C6A767" fill-opacity=".35" stroke="#C6A767" stroke-width="2"/>
+  <path d="M90 60 c-10 0 -16 8 -16 16 c0 12 16 24 16 24 s16 -12 16 -24 c0 -8 -6 -16 -16 -16z" fill="#224142"/><circle cx="90" cy="76" r="6" fill="#E3CD98"/>
+  <g fill="#C7CEBC"><rect x="16" y="178" width="90" height="7" rx="3.5"/></g>
+</g>
+<!-- envelope + letter -->
+<g transform="translate(60 120) rotate(-6)">
+  <rect x="6" y="8" width="210" height="150" rx="10" fill="#224142" fill-opacity=".14"/>
+  <rect x="18" y="-40" width="174" height="140" rx="8" fill="#FFFFFF" stroke="#DDE2D6"/>
+  <text x="34" y="-14" font-family="Georgia,serif" font-size="12" font-weight="700" fill="#224142">Re: your property</text>
+  <g fill="#C7CEBC"><rect x="34" y="-2" width="130" height="6" rx="3"/><rect x="34" y="11" width="140" height="6" rx="3"/><rect x="34" y="24" width="100" height="6" rx="3"/></g>
+  <rect x="34" y="38" width="80" height="8" rx="4" fill="#C6A767"/>
+  <path d="M0 40 L105 110 L210 40 V150 H0 Z" fill="#2E5A5D"/>
+  <path d="M0 150 L88 96 M210 150 L122 96" stroke="#224142" stroke-width="2"/>
+  <path d="M0 40 L105 110 L210 40" fill="none" stroke="#3F7174" stroke-width="2"/>
+</g>
+<!-- speech bubble -->
+<g transform="translate(330 250)">
+  <rect width="110" height="58" rx="14" fill="#224142"/><path d="M22 58 l0 16 l18 -16z" fill="#224142"/>
+  <circle cx="34" cy="29" r="5" fill="#E3CD98"/><circle cx="55" cy="29" r="5" fill="#E3CD98"/><circle cx="76" cy="29" r="5" fill="#E3CD98"/>
+</g>
+</svg>

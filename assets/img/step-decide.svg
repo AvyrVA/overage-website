@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-labelledby="t3"><title id="t3">Illustration: a fee agreement with the percentage and dollar amount written in, and a pen resting beside it, unsigned</title>
+<circle cx="240" cy="180" r="150" fill="#E4E8DC"/>
+<g transform="translate(120 44) rotate(-4)">
+  <rect x="6" y="8" width="220" height="272" rx="12" fill="#224142" fill-opacity=".14"/>
+  <rect width="220" height="272" rx="12" fill="#FFFFFF" stroke="#DDE2D6" stroke-width="1.5"/>
+  <text x="22" y="38" font-family="Georgia,serif" font-size="15" font-weight="700" fill="#224142">Fee Agreement</text>
+  <g fill="#C7CEBC"><rect x="22" y="54" width="170" height="6" rx="3"/><rect x="22" y="68" width="150" height="6" rx="3"/><rect x="22" y="82" width="176" height="6" rx="3"/></g>
+  <rect x="22" y="102" width="176" height="64" rx="8" fill="#F1F3EC" stroke="#C6A767" stroke-width="1.5"/>
+  <text x="34" y="126" font-family="Arial,sans-serif" font-size="10" fill="#556a6b" letter-spacing=".8">YOUR FEE, IN WRITING</text>
+  <text x="34" y="152" font-family="Georgia,serif" font-size="22" font-weight="700" fill="#224142">% and $</text>
+  <g fill="#C7CEBC"><rect x="22" y="182" width="160" height="6" rx="3"/><rect x="22" y="196" width="130" height="6" rx="3"/></g>
+  <line x1="22" y1="244" x2="130" y2="244" stroke="#304446" stroke-width="1.5"/>
+  <text x="22" y="258" font-family="Arial,sans-serif" font-size="9" fill="#556a6b">Signature</text>
+</g>
+<g transform="translate(262 283) rotate(-40)">
+  <path d="M0 0 L26 -9 L26 9 Z" fill="#E3CD98"/><path d="M0 0 L9 -3.1 L9 3.1 Z" fill="#224142"/>
+  <rect x="26" y="-10" width="150" height="20" rx="10" fill="#224142"/>
+  <rect x="40" y="-10" width="16" height="20" fill="#C6A767"/>
+</g>
+<g transform="translate(330 70)">
+  <circle r="36" fill="#5E9163"/><path d="M-14 0 l9 9 l19 -20" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

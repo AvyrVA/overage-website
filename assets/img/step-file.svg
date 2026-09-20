@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-labelledby="t4"><title id="t4">Illustration: a claim filed at the courthouse, a progress track through review, and funds released at the end</title>
+<circle cx="240" cy="180" r="150" fill="#E4E8DC"/>
+<g transform="translate(60 70)">
+  <path d="M0 50 L80 14 L160 50Z" fill="#224142"/>
+  <rect x="4" y="50" width="152" height="10" fill="#2E5A5D"/>
+  <g fill="#3F7174"><rect x="12.0" y="60" width="14" height="80"/><rect x="52.7" y="60" width="14" height="80"/><rect x="93.3" y="60" width="14" height="80"/><rect x="134.0" y="60" width="14" height="80"/></g>
+  <rect x="-6" y="140" width="172" height="12" fill="#224142"/>
+  <circle cx="80" cy="36" r="7" fill="#C6A767"/>
+</g>
+<!-- document flying in -->
+<g transform="translate(150 12) rotate(12)"><rect width="56" height="70" rx="6" fill="#FFFFFF" stroke="#C6A767" stroke-width="2"/><g fill="#C7CEBC"><rect x="10" y="14" width="36" height="5" rx="2.5"/><rect x="10" y="26" width="28" height="5" rx="2.5"/><rect x="10" y="38" width="32" height="5" rx="2.5"/></g></g>
+<!-- progress track -->
+<g transform="translate(60 270)">
+  <rect width="360" height="10" rx="5" fill="#C7CEBC"/>
+  <rect width="250" height="10" rx="5" fill="#224142"/>
+  <g><circle cx="0" cy="5" r="14" fill="#224142"/><path d="M-6 5 l4 4 l8 -8" fill="none" stroke="#E3CD98" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <g><circle cx="125" cy="5" r="14" fill="#224142"/><path d="M119 5 l4 4 l8 -8" fill="none" stroke="#E3CD98" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <g><circle cx="250" cy="5" r="14" fill="#224142"/><path d="M244 5 l4 4 l8 -8" fill="none" stroke="#E3CD98" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <circle cx="360" cy="5" r="14" fill="#FFFFFF" stroke="#C6A767" stroke-width="3"/>
+  <g font-family="Arial,sans-serif" font-size="11" fill="#304446" text-anchor="middle"><text x="0" y="40">Filed</text><text x="125" y="40">Reviewed</text><text x="250" y="40">Approved</text><text x="360" y="40">Paid</text></g>
+</g>
+<!-- check -->
+<g transform="translate(262 110) rotate(-5)">
+  <rect x="5" y="7" width="170" height="86" rx="10" fill="#224142" fill-opacity=".14"/>
+  <rect width="170" height="86" rx="10" fill="#FFFFFF"/>
+  <rect width="170" height="12" rx="6" fill="#C6A767"/><rect y="6" width="170" height="6" fill="#C6A767"/>
+  <rect x="14" y="30" width="90" height="7" rx="3.5" fill="#304446"/>
+  <rect x="112" y="24" width="46" height="20" rx="4" fill="#F1F3EC" stroke="#C6A767"/>
+  <text x="135" y="39" text-anchor="middle" font-family="Georgia,serif" font-size="12" font-weight="700" fill="#224142">$</text>
+  <g fill="#C7CEBC"><rect x="14" y="52" width="140" height="5" rx="2.5"/><rect x="14" y="68" width="60" height="5" rx="2.5"/></g>
+</g>
+</svg>
