@@ -211,15 +211,20 @@ strong{font-weight:700;color:var(--ink)}
 /* ---------- proof band: floating card over the hero edge ---------- */
 .proof{position:relative;z-index:2;margin-top:-86px}
 .proof ul{list-style:none;margin:0 auto;padding:clamp(18px,2.4vw,28px);max-width:1040px;background:var(--paper);border-radius:var(--r);box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-/* The four proof points are parallel claims, so their descriptions belong on
-   one line. Two of the headings wrap to two lines and two do not, which left
-   half the descriptions sitting ~27px lower than the rest. subgrid makes the
-   heading a shared row track across the tiles in a row band, so they align at
-   every breakpoint without hard-coding a height. A browser without subgrid
-   drops the one declaration and renders as it does today. */
-.proof li{display:grid;grid-template-columns:auto 1fr;grid-template-rows:subgrid;grid-row:span 2;column-gap:14px;align-items:start;padding:10px 12px}
-.proof li>.icon{grid-column:1;grid-row:span 2}
-.proof li>div{display:contents}
+/* Each tile flows naturally: icon and heading at the top, description tight
+   underneath it. An earlier version used subgrid to force the four
+   descriptions onto one baseline, which did align them — but it sized the
+   heading row for two lines, so the single-line tiles ("$0 upfront", "Since
+   2021") ended up with their description floating ~30px below the heading,
+   visibly detached from it. Proximity beats alignment here: a description
+   belongs to its heading, not to the descriptions beside it.
+
+   Fitting every heading on one line would fix both at once, but it cannot be
+   done at this size: "Licensed attorney" needs 214px on one line and a tile
+   only offers about 166px, so the type would have to drop from 27px to 21px.
+   These four numbers are the proof band; shrinking them by a fifth to tidy a
+   baseline is the wrong trade. */
+.proof li{display:flex;gap:14px;align-items:flex-start;padding:10px 12px}
 .proof li+li{border-left:1px solid var(--rule)}
 .proof .icon{width:34px;height:34px;color:var(--leaf);stroke-width:1.6;margin-top:2px}
 .proof b{display:block;font-family:var(--display);font-size:clamp(22px,2.2vw,27px);line-height:1.05;color:var(--teal);font-weight:700;letter-spacing:-.01em}
