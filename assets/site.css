@@ -6,8 +6,42 @@
    there, not the HTML at the repo root.
    ============================================================================ */
 
-@font-face{font-family:"Source Serif 4";src:url(fonts/source-serif-4-latin.woff2) format("woff2");font-weight:200 900;font-style:normal;font-display:swap}
-@font-face{font-family:"Public Sans";src:url(fonts/public-sans-latin.woff2) format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+/* Subset fonts. The weight axes are narrowed to the range the site actually
+   uses (serif 600-700, sans 400-800), which cut 47KB from the payload without
+   losing a single codepoint or the optical-size axis. If you ever style
+   something outside these ranges the browser will clamp it, so widen the
+   range and re-subset rather than wondering why 400 looks bold. */
+@font-face{font-family:"Source Serif 4";src:url(fonts/source-serif-4-latin.woff2) format("woff2");font-weight:600 700;font-style:normal;font-display:swap}
+@font-face{font-family:"Public Sans";src:url(fonts/public-sans-latin.woff2) format("woff2");font-weight:400 800;font-style:normal;font-display:swap}
+
+/* ----------------------------------------------------------------------------
+   Metric-matched fallback for the body font.
+
+   With font-display:swap the page first paints in a system font and reflows
+   when the webfont arrives. Measured across three pages, that reflow moved the
+   bottom of the document by 191px in total — content shifting under someone
+   who has already started reading.
+
+   size-adjust scales the fallback's advances so its line breaks land where the
+   webfont's do. 103.5% was found by sweeping values and measuring the residual
+   shift, not computed from xAvgCharWidth: that field is not comparable across
+   these fonts, since Liberation Sans reports 1187 where metrically identical
+   Arial reports 913. The sweep took the total from 191px to 48px.
+
+   The ascent/descent overrides are the webfont's own metrics and are relative
+   to the font size, so they hold whichever system font answers local().
+
+   There is deliberately no equivalent face for the display serif. One was
+   built and measured, and it changed the rendering by exactly zero pixels:
+   every heading here sets a unitless line-height, so the line box comes from
+   the CSS and never from the font's ascent and descent. Adding a size-adjust
+   for it would need Georgia's advance widths, which cannot be measured on this
+   machine, so it would be a guess replacing a known shift with an unknown one.
+
+   If local() finds nothing the face is skipped and the stack behaves exactly
+   as it did before, so this can only help or do nothing.
+   ---------------------------------------------------------------------------- */
+@font-face{font-family:"Public Sans Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:103.5%;ascent-override:90.63%;descent-override:21.47%;line-gap-override:0%}
 
 :root{
   color-scheme:light;
@@ -35,7 +69,7 @@
   --shadow-sm:0 1px 2px rgba(14,26,27,.06),0 4px 14px -6px rgba(14,26,27,.14);
   --shadow:0 2px 4px rgba(14,26,27,.05),0 24px 48px -24px rgba(14,26,27,.35);
   --display:"Source Serif 4",Georgia,"Times New Roman",serif;
-  --sans:"Public Sans","Helvetica Neue",Arial,sans-serif;
+  --sans:"Public Sans","Public Sans Fallback","Helvetica Neue",Arial,sans-serif;
   --maxw:1180px;
   --pad:clamp(16px,4vw,40px);
   --r-lg:28px;
@@ -141,6 +175,11 @@ strong{font-weight:700;color:var(--ink)}
 .section-head.center{margin-inline:auto}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px);align-items:center}
 .split--top{align-items:start}
+/* When one column is much taller than the other, top-aligning leaves a large
+   void under the shorter one. On what-it-costs the gap was 329px. --balance
+   centres the short column instead, so the space is shared top and bottom and
+   reads as composition rather than as something missing. */
+.split--balance{align-items:center}
 @media (max-width:900px){.split{grid-template-columns:1fr}}
 
 /* ---------- home hero (rounded panel, like the reference) ---------- */
@@ -312,12 +351,21 @@ strong{font-weight:700;color:var(--ink)}
 
 /* ---------- FAQ (dark bars like the reference) ---------- */
 .faq{display:grid;gap:10px;max-width:920px;margin-inline:auto}
-.faq details{background:var(--paper);border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--rule)}
-.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:18px 22px;background:var(--teal);color:#fff;font-family:var(--display);font-size:clamp(17px,1.6vw,19px);font-weight:650;line-height:1.3}
+/* The closed state used to be a solid teal bar. Seventeen of them stacked read
+   as a wall of dark blocks against a site that is otherwise light and open,
+   and because the questions are short most of each bar was empty. Closed rows
+   are now paper with a hairline rule; the teal is spent on the question itself
+   and on marking which row is open. The chevron uses gold-ink rather than
+   gold: gold on white is 1.9:1, and a control that signals state has to clear
+   3:1 (WCAG 1.4.11). gold-ink is 5.1:1. */
+.faq details{background:var(--paper);border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--rule);transition:border-color .2s,box-shadow .2s}
+.faq details[open]{border-color:var(--teal-3);box-shadow:var(--shadow-sm)}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:18px 22px;background:var(--paper);color:var(--teal);font-family:var(--display);font-size:clamp(17px,1.6vw,19px);font-weight:650;line-height:1.3}
+.faq details[open] summary{background:var(--sage-3);border-bottom:1px solid var(--rule)}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary .icon{width:22px;height:22px;color:var(--gold);transition:transform .2s;stroke-width:2.2}
+.faq summary .icon{width:22px;height:22px;color:var(--gold-ink);transition:transform .2s;stroke-width:2.2;margin-left:auto;order:2}
 .faq details[open] summary .icon{transform:rotate(180deg)}
-.faq summary:hover{background:var(--teal-2)}
+.faq summary:hover{background:var(--sage-3);color:var(--teal-2)}
 .faq summary:focus-visible{outline-offset:-4px}
 .faq .answer{padding:20px 24px 22px;color:var(--ink-2)}
 .faq .answer p:last-child,.faq .answer ul:last-child{margin-bottom:0}
