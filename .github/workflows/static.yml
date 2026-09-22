@@ -1,28 +1,28 @@
-# Simple workflow for deploying static content to GitHub Pages
+# Deploys the public site to GitHub Pages.
+#
+# The previous version of this workflow uploaded the entire repository
+# (path: '.'), which served every internal file on the live domain —
+# README.md, tools/build.py, tools/pages/*, assets/checks/README.md. The
+# staging step below is the fix: the artifact contains only what a visitor
+# should be able to fetch. Anything not copied into _site is in the repo but
+# not on the website.
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
     environment:
       name: github-pages
@@ -31,13 +31,40 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      # Rebuilds the HTML from tools/pages/ so the deployed pages can never be
+      # staler than their sources, and fails the deploy if the consent text on
+      # a built page no longer matches the consent manifest the intake endpoint
+      # validates against. A consent record that misquotes the page is worse
+      # than a missed deploy.
+      - name: Build pages and verify consent text
+        run: python3 tools/build.py
+
+      - name: Stage the public site only
+        run: |
+          mkdir -p _site
+          cp *.html _site/
+          cp CNAME .nojekyll _site/
+          cp -r assets _site/
+          # Internal notes live beside the assets they describe; they are not
+          # part of the website.
+          find _site -name '*.md' -delete
+          echo "Staged for deploy:"
+          find _site -type f | sort
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          path: "_site"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5

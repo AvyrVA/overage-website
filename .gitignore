@@ -1,0 +1,19 @@
+# Never publish these to a public GitHub Pages repo.
+Fee_Agreement_*.doc
+*.doc
+*.docx
+PROPOSAL.md
+prompt for fable.txt
+ref/
+archive/
+Screenshot*.png
+node_modules/
+__pycache__/
+CLAUDE.md
+README.md
+
+# Intake private key. Decrypts every stored submission. Never commit it.
+worker/intake-private-key.pem
+*.pem
+worker/.wrangler/
+worker/node_modules/

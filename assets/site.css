@@ -342,6 +342,9 @@ strong{font-weight:700;color:var(--ink)}
 .consent b{color:var(--ink)}
 .nossn{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;color:var(--ink-2);margin:14px 0 0}
 .nossn .icon{width:20px;height:20px;color:var(--leaf);margin-top:2px}
+/* Honeypot: off-screen for sighted visitors, hidden from assistive tech, out
+   of the tab order. Not display:none — some bots skip what is display:none. */
+.hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .formmsg{display:none;padding:14px 16px;border-radius:10px;margin-bottom:16px;font-size:14.5px}
 .formmsg.is-visible{display:block}
 .formmsg--error{background:#FBF1EE;border:1px solid #E2B8AE;color:#5C231A}

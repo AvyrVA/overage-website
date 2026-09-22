@@ -1,0 +1,40 @@
+name = "ure-intake"
+main = "src/worker.js"
+compatibility_date = "2026-09-01"
+
+# Created by:  npx wrangler kv namespace create INTAKE
+# Paste the id it prints here.
+[[kv_namespaces]]
+binding = "INTAKE"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+[vars]
+# Origins allowed to post here. Nothing else gets CORS headers, so a form
+# copied onto another domain cannot submit to this endpoint.
+ALLOWED_ORIGINS = "https://undistributedfund.com,https://www.undistributedfund.com"
+
+# Public half of the intake key pair, base64 SPKI.
+#   node tools/intake.mjs keygen
+# This is public by design — it can encrypt, it cannot decrypt. The private
+# half never goes into this file, into Cloudflare, or into git.
+INTAKE_PUBLIC_KEY = "REPLACE_WITH_PUBLIC_KEY"
+
+# How long an encrypted submission is retained. 1825 days = 5 years, which
+# covers the four-year TCPA limitations period with a margin. This is the
+# number that should end up in [RETENTION SCHEDULE] on privacy.html.
+RETENTION_DAYS = "1825"
+
+# A submit faster than this after page load is a script, not a person.
+MIN_DWELL_MS = "3000"
+MAX_PER_IP_PER_DAY = "8"
+
+# Notification email. "full" puts the lead in your inbox so you can act on it
+# within the two-business-day promise; "minimal" sends only the reference and
+# keeps every piece of personal data inside the encrypted record.
+NOTIFY_MODE = "full"
+NOTIFY_TO = "ana@undistributedfund.com"
+NOTIFY_FROM = "Intake <intake@undistributedfund.com>"
+
+# Secrets — set these with wrangler, never in this file:
+#   npx wrangler secret put RESEND_API_KEY
+#   npx wrangler secret put RATE_SALT

@@ -1,0 +1,15 @@
+{
+  "name": "ure-intake",
+  "private": true,
+  "description": "Intake endpoint for undistributedfund.com. See DEPLOY.md.",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "keygen": "node tools/intake.mjs keygen",
+    "list": "node tools/intake.mjs list",
+    "read": "node tools/intake.mjs read"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
