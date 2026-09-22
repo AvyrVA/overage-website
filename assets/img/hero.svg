@@ -1,11 +1,58 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 480" role="img" aria-labelledby="ht"><title id="ht">Illustration: a county courthouse, a claim document with an approval seal, and a disbursement check returning to a house</title>
+<style>
+  /* Ambient motion, defined here because this file is loaded as an image and is
+     therefore its own document — site.css cannot reach inside it.
+
+     Opt-in, not opt-out: nothing animates unless the visitor's system reports
+     no motion preference. A person who has asked their OS for reduced motion
+     sees the illustration exactly as it was drawn.
+
+     Every loop is slow and low-amplitude on purpose. This page is read by
+     people who have just lost a house; the illustration should feel quietly
+     alive, never busy, and never like it is hurrying anyone. */
+  @media (prefers-reduced-motion: no-preference) {
+
+    /* The dotted path runs from the courthouse back to the house. Drifting the
+       dashes along it is the one piece of movement that means something here:
+       it is the money going home. One full dash period (2 + 9 = 11 user units)
+       per cycle, so the loop is seamless with no visible restart. */
+    .flow { animation: flow 2.6s linear infinite; }
+    @keyframes flow { to { stroke-dashoffset: -11; } }
+
+    /* The approval seal's inner ring turns once a minute — slow enough to read
+       as a stamp settling rather than a loading spinner. */
+    .seal-ring {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: turn 60s linear infinite;
+    }
+    @keyframes turn { to { transform: rotate(360deg); } }
+
+    /* Sparkles breathe out of phase so they never pulse in unison. */
+    .spark-a { animation: twinkle 7s ease-in-out infinite; }
+    .spark-b { animation: twinkle 9s ease-in-out -3.5s infinite; }
+    @keyframes twinkle {
+      0%, 100% { opacity: .35; }
+      50%      { opacity: 1; }
+    }
+
+    /* The glow behind everything shifts by a few percent of an already
+       6%-opaque fill. Not really visible — felt rather than seen. */
+    .glow-a { animation: breathe 14s ease-in-out infinite; }
+    .glow-b { animation: breathe 18s ease-in-out -7s infinite; }
+    @keyframes breathe {
+      0%, 100% { opacity: .75; }
+      50%      { opacity: 1.25; }
+    }
+  }
+</style>
 <defs>
 <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4E8DC"/><stop offset="1" stop-color="#C7CEBC"/></linearGradient>
 <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E3CD98"/><stop offset="1" stop-color="#C6A767"/></linearGradient>
 </defs>
 <!-- glow -->
-<circle cx="300" cy="230" r="200" fill="#F4F6F1" fill-opacity=".06"/>
-<circle cx="300" cy="230" r="150" fill="#F4F6F1" fill-opacity=".05"/>
+<circle class="glow-a" cx="300" cy="230" r="200" fill="#F4F6F1" fill-opacity=".06"/>
+<circle class="glow-b" cx="300" cy="230" r="150" fill="#F4F6F1" fill-opacity=".05"/>
 <!-- courthouse -->
 <g transform="translate(250 60)">
   <path d="M0 92 L130 30 L260 92 Z" fill="url(#hg)"/>
@@ -19,7 +66,7 @@
   <rect x="-24" y="250" width="308" height="12" fill="#C7CEBC"/>
 </g>
 <!-- dotted path from courthouse to house -->
-<path d="M270 330 C 210 400, 140 400, 96 372" fill="none" stroke="#E3CD98" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
+<path class="flow" d="M270 330 C 210 400, 140 400, 96 372" fill="none" stroke="#E3CD98" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
 <!-- claim document -->
 <g transform="translate(58 96) rotate(-7)">
   <rect x="6" y="8" width="200" height="252" rx="10" fill="#0E1A1B" fill-opacity=".25"/>
@@ -34,7 +81,7 @@
   <g fill="#C7CEBC"><rect x="18" y="194" width="90" height="6" rx="3"/><rect x="18" y="208" width="70" height="6" rx="3"/></g>
   <path d="M18 236 c10 -12 18 8 28 -4 s16 6 26 -2" fill="none" stroke="#224142" stroke-width="2" stroke-linecap="round"/>
   <!-- seal -->
-  <g transform="translate(160 214)"><circle r="26" fill="url(#gold)"/><circle r="19" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M-8 0 l6 6 l11 -12" fill="none" stroke="#172D2F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <g transform="translate(160 214)"><circle r="26" fill="url(#gold)"/><circle class="seal-ring" r="19" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M-8 0 l6 6 l11 -12" fill="none" stroke="#172D2F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></g>
 </g>
 <!-- check -->
 <g transform="translate(250 300) rotate(4)">
@@ -57,5 +104,5 @@
   <rect x="40" y="68" width="14" height="14" rx="2" fill="#C7CEBC"/><rect x="86" y="68" width="14" height="14" rx="2" fill="#C7CEBC"/>
 </g>
 <!-- sparkles -->
-<g fill="#E3CD98"><path d="M520 70 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4z"/><path d="M40 60 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 l7 -3z" fill-opacity=".7"/></g>
+<g fill="#E3CD98"><path class="spark-a" d="M520 70 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4z"/><path class="spark-b" d="M40 60 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 l7 -3z" fill-opacity=".7"/></g>
 </svg>

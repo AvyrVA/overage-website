@@ -146,8 +146,14 @@ strong{font-weight:700;color:var(--ink)}
 /* ---------- home hero (rounded panel, like the reference) ---------- */
 .hero-wrap{padding:22px clamp(10px,1.6vw,22px) 0;background:linear-gradient(var(--paper) 0 60%,var(--bg) 60%)}
 .hero{position:relative;border-radius:var(--r-lg);background:var(--teal) url(img/plat-lines.svg) center/cover no-repeat;color:var(--on-dark);overflow:hidden;box-shadow:var(--shadow)}
-.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 90% at 85% 40%,rgba(198,167,103,.20),transparent 60%),linear-gradient(100deg,rgba(23,45,47,.92) 0%,rgba(23,45,47,.55) 55%,rgba(23,45,47,.15) 100%)}
-.hero .shell{position:relative;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(24px,4vw,56px);align-items:center;padding-block:clamp(56px,7vw,96px) clamp(120px,11vw,150px)}
+/* The scrim and the gold light pool were one background on ::before. They are
+   split so the gold can move on its own layer without disturbing the plat
+   lines or the text. Explicit z-index because ::after would otherwise paint
+   over .shell — pseudo-elements are the first and last children, and
+   positioned siblings at z-index:auto paint in DOM order. */
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(23,45,47,.92) 0%,rgba(23,45,47,.55) 55%,rgba(23,45,47,.15) 100%)}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 70% 90% at 85% 40%,rgba(198,167,103,.20),transparent 60%)}
+.hero .shell{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(24px,4vw,56px);align-items:center;padding-block:clamp(56px,7vw,96px) clamp(120px,11vw,150px)}
 .hero h1{color:#fff;font-size:clamp(36px,5.2vw,62px);line-height:1.06;margin-bottom:22px}
 .hero h1 em{color:var(--gold);font-style:normal}
 .hero p{color:var(--on-dark);font-size:clamp(16.5px,1.4vw,18.5px);max-width:58ch}
@@ -435,7 +441,12 @@ table.plain td{color:var(--ink-2)}
 @media (max-width:800px){.cta-band{grid-template-columns:1fr}}
 
 /* ---------- footer ---------- */
-.site-footer{background:var(--teal-deep) url(img/waves.svg) center/cover no-repeat;color:var(--on-dark);padding-top:clamp(56px,7vw,88px)}
+/* Waves moved off the element and onto an oversized layer beneath the content,
+   so they can drift without the edges ever showing. inset:-10% gives the drift
+   room; overflow:hidden clips it. */
+.site-footer{position:relative;overflow:hidden;background:var(--teal-deep);color:var(--on-dark);padding-top:clamp(56px,7vw,88px)}
+.site-footer::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:url(img/waves.svg) center/cover no-repeat}
+.site-footer>.shell{position:relative;z-index:1}
 main>:last-child:not(.section--sage):not(.section){margin-bottom:clamp(64px,8vw,112px)}
 .footdisc{border:1px solid rgba(185,200,196,.28);border-left:5px solid var(--gold);border-radius:var(--r-sm);padding:clamp(20px,3vw,30px);background:rgba(23,45,47,.7);margin-bottom:48px}
 .footdisc h2{font-family:var(--sans);font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-2);margin:0 0 14px}
@@ -460,3 +471,85 @@ main>:last-child:not(.section--sage):not(.section){margin-bottom:clamp(64px,8vw,
 .mt-0{margin-top:0}.mb-0{margin-bottom:0}
 .mt-s{margin-top:16px}.mt-m{margin-top:28px}.mt-l{margin-top:48px}
 .stack>*+*{margin-top:18px}
+
+/* ============================================================================
+   MOTION
+   ----------------------------------------------------------------------------
+   Everything below is decorative and opt-in. It is wrapped in
+   prefers-reduced-motion:no-preference, so a visitor whose system asks for
+   reduced motion never has these rules applied at all — not merely shortened.
+   The blanket reduced-motion rule near the top of this file is the backstop;
+   this is the belt.
+
+   Two principles, both from the design rules in the README:
+
+   1. No urgency. Nothing pulses, counts, flashes, or draws the eye to a call
+      to action. This site is read by people who have just lost a house to a
+      foreclosure or a tax sale, in a category crowded with predators. Motion
+      that hurries them would be a tell.
+
+   2. Nothing moves while it is being read. Ambient loops are slow (14s-90s)
+      and low-amplitude. The one quick loop is the dotted path inside the hero
+      illustration, which is off to the side of the text and is the only motion
+      that carries meaning — it is the money going home.
+
+   Note on WCAG 2.2.2 (Pause, Stop, Hide): the ambient loops here run longer
+   than five seconds. prefers-reduced-motion is treated as the stop mechanism,
+   which is common practice but is not the same as an in-page control. If a
+   visible motion toggle is ever wanted, this is the block it would switch.
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* --- ambient backgrounds ------------------------------------------------
+     Both drift on transform rather than background-position, so the work
+     happens on the compositor instead of repainting a large area each frame.
+     alternate, so there is no jump at the end of a cycle. */
+
+  /* Gold light pool in the hero, like light moving across a room. 70s. */
+  .hero::after { animation: ure-light 70s ease-in-out infinite alternate; }
+  @keyframes ure-light {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to   { transform: translate3d(-2.2%, 1.6%, 0) scale(1.06); }
+  }
+
+  /* Footer waves. 90s — about as slow as motion can be and still register.
+
+     The layer is exactly the size of the footer, so a bare translate would
+     drag its edge into view. Instead scale and translate together, both
+     starting at identity: at progress t the scale opens up 2.5%t of slack on
+     each side while the translate only asks for 1.5%t, so the edge is never
+     exposed at any point in the cycle — and at rest the layer is untransformed
+     and therefore pixel-identical to the original design. */
+  .site-footer::before { animation: ure-swell 90s ease-in-out infinite alternate; }
+  @keyframes ure-swell {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to   { transform: translate3d(1.5%, -0.8%, 0) scale(1.05); }
+  }
+
+  /* --- illustrations rising into view -------------------------------------
+     Scroll-driven, so no JavaScript is involved. @supports means a browser
+     without scroll timelines simply shows the picture, and the rule is scoped
+     to alt="" decorative images only: if this ever misbehaves, the worst case
+     is a missing illustration, never missing words. */
+  @supports (animation-timeline: view()) {
+    .row-art img[alt=""],
+    .art img[alt=""] {
+      animation: ure-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 26%;
+    }
+    @keyframes ure-rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: none; }
+    }
+  }
+
+  /* --- form feedback -------------------------------------------------------
+     The one place motion is earned rather than ambient: the visitor did
+     something and the page answers. Short, and it never loops. */
+  .formmsg.is-visible { animation: ure-answer .32s cubic-bezier(.2, .7, .3, 1) both; }
+  @keyframes ure-answer {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: none; }
+  }
+}
