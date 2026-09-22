@@ -6,7 +6,7 @@ compatibility_date = "2026-09-01"
 # Paste the id it prints here.
 [[kv_namespaces]]
 binding = "INTAKE"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
+id = "1accd6ddf4994376bee89bbeae9b17ac"
 
 [vars]
 # Origins allowed to post here. Nothing else gets CORS headers, so a form
@@ -17,7 +17,7 @@ ALLOWED_ORIGINS = "https://undistributedfund.com,https://www.undistributedfund.c
 #   node tools/intake.mjs keygen
 # This is public by design — it can encrypt, it cannot decrypt. The private
 # half never goes into this file, into Cloudflare, or into git.
-INTAKE_PUBLIC_KEY = "REPLACE_WITH_PUBLIC_KEY"
+INTAKE_PUBLIC_KEY = "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAqvEhfPYV9o+/luEPjfgd4OKvjYdzMU42wFTw2s4HW99nigY5zph1DMCQJrtY6xqcpcK1AFZWDt/LGZxzbHzJTnYzucfNsgAxBIo/VW2nFGzp3M7u+hc/SWMIiLAEkNKhZF67uzz5iWgMPHlpuYmtkgCEnYTmW/WUf7j6XMK5VD+IQWsGVbp6ybdL2Di1K6/XrlFmeGUCFDVjXW3x8ZBW8Aoyjo+kmKAWx2+dYail3OQHMhZxXurcgtPvz+hJzxCDhCaTtwSAZn755AOO6B1YCPXS3rZMboSluWBVusqnzAhOIw9/ahGuUTRMYGhAKumUtDeWMVS+V33dK5kTDHE4bssuOCybuUwF6bM+wD18TOe3VYFRoysPHAkvLBA01F1PBZkR7meGmT3R+W7Gr+ajHs/aH2o7dW+WmqmxTO0WtT+FBvmgajsCoHFTGdVFtf87LmIqpjetXo6OtFapq79D5OsvF7aAdBSRov6Men+qKSotxsmdOkyMZyu5pjAHqZvNnpj/STwWpmsJeVY6jl5taqZ/8N81QS/u0wHku7zDiu2BVkpU7Y81P/lkwsPAL4H6G3LEUCmwaxeTzM86MZ2IEjpxYZGfmgDD7wPdpvdvidYUPeKHTdundBkI+2+zAofVQssQKUxUCKFHgCKCdy3l1Y8CqWB1BoxhC86l0j3o3ukCAwEAAQ=="
 
 # How long an encrypted submission is retained. 1825 days = 5 years, which
 # covers the four-year TCPA limitations period with a margin. This is the

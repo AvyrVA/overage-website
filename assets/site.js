@@ -13,12 +13,14 @@
      If this is ever emptied, the form falls back to opening the
      visitor's email app with their details filled in, and says so
      plainly. It never claims a submission it did not make.
+
+     The workers.dev host is Cloudflare's auto-assigned account
+     subdomain and cannot be renamed — it is one-time per account. It is
+     never shown to a visitor, only visible in a network inspector.
      ------------------------------------------------------------------ */
-  var INTAKE_ENDPOINT = 'https://ure-intake.REPLACE-WITH-YOUR-SUBDOMAIN.workers.dev';
+  var INTAKE_ENDPOINT = 'https://ure-intake.green-flower-1bc5.workers.dev';
   var INTAKE_EMAIL = 'ana@undistributedfund.com';
   var PHONE = '936-287-1001';
-
-  if (/REPLACE-WITH-YOUR-SUBDOMAIN/.test(INTAKE_ENDPOINT)) { INTAKE_ENDPOINT = ''; }
 
   /* ---------- mobile nav ---------- */
   var toggle = document.querySelector('.navtoggle');
