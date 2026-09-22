@@ -170,9 +170,10 @@ export default {
 
     ctx.waitUntil(env.INTAKE.put(rlKey, String(seen + 1), { expirationTtl: 86400 }));
 
-    // Spam gets recorded but never reaches the inbox.
+    // Spam gets recorded but never reaches the inbox or the working log.
     if (!flags.includes('honeypot')) {
       ctx.waitUntil(notify(env, record, kvKey));
+      ctx.waitUntil(logToSheet(env, record));
     }
 
     return json({ ok: true, reference }, 200, headers);
@@ -401,6 +402,143 @@ async function notify(env, record, kvKey) {
     // The submission is already stored. A failed email is not a failed intake.
     console.error('notify threw', e && e.message);
   }
+}
+
+/* --------------------------------------------------- working log (Sheets) */
+
+/**
+ * Appends the lead to a Google Sheet, so the business has a pipeline it can
+ * work from without decrypting anything.
+ *
+ * Deliberately NOT written here: the originating IP, the user agent, and the
+ * verbatim consent text. Those are the TCPA record. They stay only in the
+ * encrypted copy, where a row cannot be quietly edited months later. A
+ * spreadsheet is a working list; it is not evidence, and it should never be
+ * the thing anyone reaches for to prove what a consumer agreed to.
+ */
+const SHEET_COLUMNS = [
+  'Received', 'Reference', 'Name', 'Property address',
+  'Phone', 'Email', 'Notes', 'SMS opt-in', 'Flags',
+];
+
+async function logToSheet(env, record) {
+  if (!env.GOOGLE_SA_KEY || !env.SHEET_ID) return;
+  const tab = env.SHEET_TAB || 'Sheet1';
+  try {
+    const token = await googleToken(env);
+    await ensureHeaders(env, tab, token);
+
+    const row = [
+      record.received_at,
+      record.reference,
+      record.lead.name,
+      record.lead.property_address,
+      record.lead.phone,
+      record.lead.email,
+      record.lead.notes,
+      record.consent.sms.accepted ? 'yes' : 'no',
+      record.flags.join(', '),
+    ];
+
+    const r = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${env.SHEET_ID}/values/` +
+        `${encodeURIComponent(tab + '!A:I')}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
+      {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ values: [row] }),
+      }
+    );
+    if (!r.ok) console.error('sheet append failed', r.status, (await r.text()).slice(0, 300));
+  } catch (e) {
+    // The encrypted record is already stored. A failed log is not a failed intake.
+    console.error('sheet log threw', e && e.message);
+  }
+}
+
+/** Writes the header row once, if the sheet is empty. Flagged in KV so it costs one read per month, not one per submission. */
+async function ensureHeaders(env, tab, token) {
+  if (await env.INTAKE.get('sheet:headers')) return;
+
+  const url =
+    `https://sheets.googleapis.com/v4/spreadsheets/${env.SHEET_ID}/values/` +
+    encodeURIComponent(tab + '!A1:I1');
+
+  const r = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  if (!r.ok) throw new Error(`sheet read ${r.status}: ${(await r.text()).slice(0, 200)}`);
+
+  const body = await r.json();
+  if (!body.values || !body.values.length) {
+    const w = await fetch(url + '?valueInputOption=RAW', {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ values: [SHEET_COLUMNS] }),
+    });
+    if (!w.ok) throw new Error(`header write ${w.status}: ${(await w.text()).slice(0, 200)}`);
+  }
+  await env.INTAKE.put('sheet:headers', '1', { expirationTtl: 86400 * 30 });
+}
+
+/**
+ * Service-account JWT exchanged for an OAuth access token, cached in KV until
+ * shortly before it expires, so a burst of submissions signs once rather than
+ * once each.
+ */
+async function googleToken(env) {
+  const cached = await env.INTAKE.get('google:token');
+  if (cached) return cached;
+
+  const sa = JSON.parse(env.GOOGLE_SA_KEY);
+  const now = Math.floor(Date.now() / 1000);
+  const enc = (o) => b64url(new TextEncoder().encode(JSON.stringify(o)));
+  const input =
+    `${enc({ alg: 'RS256', typ: 'JWT' })}.` +
+    `${enc({
+      iss: sa.client_email,
+      scope: 'https://www.googleapis.com/auth/spreadsheets',
+      aud: 'https://oauth2.googleapis.com/token',
+      iat: now,
+      exp: now + 3600,
+    })}`;
+
+  const key = await crypto.subtle.importKey(
+    'pkcs8',
+    pemToDer(sa.private_key),
+    { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+  const sig = await crypto.subtle.sign(
+    'RSASSA-PKCS1-v1_5',
+    key,
+    new TextEncoder().encode(input)
+  );
+
+  const r = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+      assertion: `${input}.${b64url(sig)}`,
+    }),
+  });
+  const body = await r.json();
+  if (!body.access_token) {
+    throw new Error(`google token ${r.status}: ${JSON.stringify(body).slice(0, 200)}`);
+  }
+
+  await env.INTAKE.put('google:token', body.access_token, {
+    expirationTtl: Math.max(60, (body.expires_in || 3600) - 120),
+  });
+  return body.access_token;
+}
+
+function pemToDer(pem) {
+  return b64decode(String(pem).replace(/-----[^-]+-----/g, '').replace(/\s+/g, ''));
+}
+
+function b64url(buf) {
+  return b64encode(buf).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
 /* ------------------------------------------------------------------ utils */

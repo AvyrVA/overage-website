@@ -35,6 +35,16 @@ NOTIFY_MODE = "full"
 NOTIFY_TO = "ana@undistributedfund.com"
 NOTIFY_FROM = "Intake <intake@undistributedfund.com>"
 
+# Working log. Every accepted lead is appended to this spreadsheet so there is
+# a pipeline to work from without decrypting anything. The IP, user agent and
+# verbatim consent text are deliberately NOT written there — the TCPA record
+# stays only in the encrypted copy, where a row can't be edited after the fact.
+# The sheet must be shared with the service account address as Editor, or the
+# API returns 404.
+SHEET_ID = "1Ip6HRwk-7PxoUJGHW10X_P0zMRgdC_6G-67Ek3Y7tHc"
+SHEET_TAB = "Sheet1"
+
 # Secrets — set these with wrangler, never in this file:
 #   npx wrangler secret put RESEND_API_KEY
 #   npx wrangler secret put RATE_SALT
+#   npx wrangler secret put GOOGLE_SA_KEY   # the whole service-account JSON file
