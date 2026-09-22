@@ -172,7 +172,15 @@ strong{font-weight:700;color:var(--ink)}
 /* ---------- proof band: floating card over the hero edge ---------- */
 .proof{position:relative;z-index:2;margin-top:-86px}
 .proof ul{list-style:none;margin:0 auto;padding:clamp(18px,2.4vw,28px);max-width:1040px;background:var(--paper);border-radius:var(--r);box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.proof li{display:flex;gap:14px;align-items:flex-start;padding:10px 12px}
+/* The four proof points are parallel claims, so their descriptions belong on
+   one line. Two of the headings wrap to two lines and two do not, which left
+   half the descriptions sitting ~27px lower than the rest. subgrid makes the
+   heading a shared row track across the tiles in a row band, so they align at
+   every breakpoint without hard-coding a height. A browser without subgrid
+   drops the one declaration and renders as it does today. */
+.proof li{display:grid;grid-template-columns:auto 1fr;grid-template-rows:subgrid;grid-row:span 2;column-gap:14px;align-items:start;padding:10px 12px}
+.proof li>.icon{grid-column:1;grid-row:span 2}
+.proof li>div{display:contents}
 .proof li+li{border-left:1px solid var(--rule)}
 .proof .icon{width:34px;height:34px;color:var(--leaf);stroke-width:1.6;margin-top:2px}
 .proof b{display:block;font-family:var(--display);font-size:clamp(22px,2.2vw,27px);line-height:1.05;color:var(--teal);font-weight:700;letter-spacing:-.01em}
@@ -328,7 +336,7 @@ strong{font-weight:700;color:var(--ink)}
 .startcard .art{margin-top:8px;border-radius:var(--r);overflow:hidden}
 
 .formcard{background:var(--paper);border-radius:var(--r);padding:clamp(22px,3vw,34px);box-shadow:var(--shadow)}
-.formcard h3{font-size:24px;margin-bottom:6px}
+.formcard h2,.formcard h3{font-family:var(--display);font-size:24px;margin-bottom:6px}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
 .field label{font-size:14.5px;font-weight:700;color:var(--ink)}
 .field .opt{font-weight:400;color:var(--ink-3)}

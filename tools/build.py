@@ -11,6 +11,8 @@ every page. Run:  python3 tools/build.py
 Tokens available inside page files:
   {{PHONE}} {{TEL}} {{EMAIL}} {{ADDRESS}} {{NAME}} {{YEAR}}
   {{FORM:<id-prefix>}}   the intake form (used on index.html and start.html)
+  {{FORM:<id-prefix>:h2}} same, with the card heading at a given level, so the
+                         page's heading order stays contiguous
   {{I:<icon>}}           an inline <svg> icon from the sprite
 """
 import re, pathlib, html, json, hashlib
@@ -130,9 +132,9 @@ def write_consent_manifest():
     return out
 
 
-def form(p):
+def form(p, h="h3"):
     return f'''<div class="formcard">
-  <h3>Check my case</h3>
+  <{h}>Check my case</{h}>
   <p class="small">Tell us the address. We look it up in the public record and send you a written case review. It is free and obligates you to nothing.</p>
   <div class="formmsg formmsg--error" id="{p}-error" role="alert" tabindex="-1"></div>
   <form class="intake" id="{p}-form" data-prefix="{p}" novalidate>
@@ -146,7 +148,7 @@ def form(p):
     </div>
     <div class="field">
       <label for="{p}-address">Property address</label>
-      <input type="text" id="{p}-address" name="property_address" autocomplete="street-address" placeholder="e.g. 1234 Oak Street, Houston, TX 77026" required>
+      <input type="text" id="{p}-address" name="property_address" autocomplete="street-address" placeholder="e.g. 1234 Oak St, Houston TX" required>
       <span class="hint">The property that sold, not necessarily where you live now.</span>
     </div>
     <div class="pair">
@@ -285,7 +287,8 @@ def render(src):
     if ld:
         head_extra = ld.group(1).strip()
         body = body[:ld.start()] + body[ld.end():]
-    body = re.sub(r'\{\{FORM:([\w-]+)\}\}', lambda m: form(m.group(1)), body)
+    body = re.sub(r'\{\{FORM:([\w-]+)(?::(h[1-6]))?\}\}',
+                  lambda m: form(m.group(1), m.group(2) or 'h3'), body)
     body = re.sub(r'\{\{I:([\w-]+)\}\}', lambda m: icon(m.group(1)), body)
     body = body.replace("{{SMS_CONSENT}}", SMS_CONSENT).replace("{{TERMS_CONSENT}}", TERMS_CONSENT)
     for k, v in SITE.items():
