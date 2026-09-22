@@ -467,7 +467,13 @@ async function ensureHeaders(env, tab, token) {
   const r = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
   if (!r.ok) throw new Error(`sheet read ${r.status}: ${(await r.text()).slice(0, 200)}`);
 
-  const body = await r.json();
+  const raw = await r.text();
+  let body;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    throw new Error(`sheet read returned non-JSON: ${JSON.stringify(raw.slice(0, 120))}`);
+  }
   if (!body.values || !body.values.length) {
     const w = await fetch(url + '?valueInputOption=RAW', {
       method: 'PUT',
@@ -488,7 +494,27 @@ async function googleToken(env) {
   const cached = await env.INTAKE.get('google:token');
   if (cached) return cached;
 
-  const sa = JSON.parse(env.GOOGLE_SA_KEY);
+  // The service-account JSON is pasted in by hand, and the usual failure is a
+  // truncated paste rather than a wrong key. Say so precisely, without ever
+  // putting the key itself in a log.
+  const rawKey = String(env.GOOGLE_SA_KEY || '');
+  let sa;
+  try {
+    sa = JSON.parse(rawKey);
+  } catch (e) {
+    throw new Error(
+      `GOOGLE_SA_KEY is not valid JSON (length ${rawKey.length}, ` +
+        `starts ${JSON.stringify(rawKey.slice(0, 1))}, ends ${JSON.stringify(rawKey.slice(-1))}). ` +
+        `Set it by piping the file: npx wrangler secret put GOOGLE_SA_KEY < key.json`
+    );
+  }
+  if (!sa.client_email || !sa.private_key) {
+    throw new Error(
+      `GOOGLE_SA_KEY parsed but is missing ${!sa.client_email ? 'client_email' : 'private_key'} ` +
+        `— paste the whole service-account file, not one field.`
+    );
+  }
+
   const now = Math.floor(Date.now() / 1000);
   const enc = (o) => b64url(new TextEncoder().encode(JSON.stringify(o)));
   const input =
@@ -522,7 +548,13 @@ async function googleToken(env) {
       assertion: `${input}.${b64url(sig)}`,
     }),
   });
-  const body = await r.json();
+  const text = await r.text();
+  let body;
+  try {
+    body = JSON.parse(text);
+  } catch {
+    throw new Error(`google token ${r.status}: non-JSON response ${JSON.stringify(text.slice(0, 120))}`);
+  }
   if (!body.access_token) {
     throw new Error(`google token ${r.status}: ${JSON.stringify(body).slice(0, 200)}`);
   }

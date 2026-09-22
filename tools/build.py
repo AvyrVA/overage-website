@@ -136,23 +136,27 @@ def form(p):
   <p class="small">Tell us the address. We look it up in the public record and send you a written case review. It is free and obligates you to nothing.</p>
   <div class="formmsg formmsg--error" id="{p}-error" role="alert" tabindex="-1"></div>
   <form class="intake" id="{p}-form" data-prefix="{p}" novalidate>
+    <!-- Placeholders are examples, never instructions: every one is prefixed
+         "e.g." and the field still works if it is ignored. The phone uses the
+         555-01xx range and the email uses example.com, both reserved for
+         fiction, so neither can reach a real person. -->
     <div class="field">
       <label for="{p}-name">Your name</label>
-      <input type="text" id="{p}-name" name="name" autocomplete="name" required>
+      <input type="text" id="{p}-name" name="name" autocomplete="name" placeholder="e.g. Maria R. Alvarez" required>
     </div>
     <div class="field">
       <label for="{p}-address">Property address</label>
-      <input type="text" id="{p}-address" name="property_address" autocomplete="street-address" required>
+      <input type="text" id="{p}-address" name="property_address" autocomplete="street-address" placeholder="e.g. 1234 Oak Street, Houston, TX 77026" required>
       <span class="hint">The property that sold, not necessarily where you live now.</span>
     </div>
     <div class="pair">
       <div class="field">
         <label for="{p}-phone">Phone</label>
-        <input type="tel" id="{p}-phone" name="phone" autocomplete="tel">
+        <input type="tel" id="{p}-phone" name="phone" autocomplete="tel" placeholder="e.g. (713) 555-0142">
       </div>
       <div class="field">
         <label for="{p}-email">Email</label>
-        <input type="email" id="{p}-email" name="email" autocomplete="email">
+        <input type="email" id="{p}-email" name="email" autocomplete="email" placeholder="e.g. you@example.com">
       </div>
     </div>
     <p class="hint" style="margin:-8px 0 14px">A phone number or an email address is enough. Give us whichever you prefer.</p>

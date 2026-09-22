@@ -328,6 +328,11 @@ strong{font-weight:700;color:var(--ink)}
 .field .opt{font-weight:400;color:var(--ink-3)}
 .field input,.field textarea{font:400 16px/1.4 var(--sans);color:var(--ink);background:#fff;border:1.5px solid var(--rule-2);border-radius:10px;padding:12px 14px;width:100%;transition:border-color .15s,box-shadow .15s}
 .field textarea{min-height:104px;resize:vertical}
+/* Placeholders are worked examples. Set explicitly rather than left to the
+   browser's grey: #556a6b on white is 5.74:1, readable at body size, and still
+   clearly lighter than entered text so an example never reads as a filled
+   value. opacity:1 stops Firefox fading it further. */
+.field input::placeholder,.field textarea::placeholder{color:var(--ink-3);opacity:1}
 .field input:focus,.field textarea:focus{outline:none;border-color:var(--teal-3);box-shadow:0 0 0 4px var(--teal-tint)}
 .field input[aria-invalid="true"]{border-color:#9B3B2E}
 .hint{font-size:13px;color:var(--ink-3)}
