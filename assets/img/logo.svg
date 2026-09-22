@@ -1,11 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="t"><title id="t">Undistributed Refund Experts</title>
-<circle cx="60" cy="60" r="57" fill="#FFFFFF" stroke="#224142" stroke-width="4"/>
-<circle cx="60" cy="60" r="49" fill="#224142"/>
-<circle cx="60" cy="60" r="49" fill="none" stroke="#C6A767" stroke-width="1.5" stroke-dasharray="2 4"/>
-<path d="M34 62 L60 40 L86 62" fill="none" stroke="#F4F6F1" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M40 58 V84 H80 V58" fill="none" stroke="#F4F6F1" stroke-width="5" stroke-linejoin="round"/>
-<circle cx="60" cy="68.5" r="9.5" fill="#C6A767"/>
-<path d="M60 62.5 v12 M63 64.6 c-1-1.4-5.5-1.8-6 .6 c-.5 2.6 6.4 1.5 6 4.4 c-.4 2.6-5.1 2.1-6.5.6" fill="none" stroke="#224142" stroke-width="1.8" stroke-linecap="round"/>
-<path d="M88 44 a32 32 0 0 0 -46 -12" fill="none" stroke="#C6A767" stroke-width="3.5" stroke-linecap="round"/>
-<path d="M40 25 l2 8 l8 -1.5" fill="none" stroke="#C6A767" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="ure-r">
+<title id="ure-r">Undistributed Refund Experts</title>
+<g aria-hidden="true">
+<circle cx="60" cy="60" r="57" fill="#FFFFFF" stroke="#224142" stroke-width="5"/>
+<circle cx="60" cy="60" r="48" fill="#224142"/>
+<path d="M99.4,53.1 A40,40 0 1 0 22.4,73.7" fill="none" stroke="#C6A767" stroke-width="3.6" stroke-linecap="round"/>
+<path d="M23.5,65.8 L22.4,73.7 M16.5,68.3 L22.4,73.7" fill="none" stroke="#C6A767" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M30,63 L60.0,39 L90,63" fill="none" stroke="#F4F6F1" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M38,56.6 V88 H82 V56.6" fill="none" stroke="#F4F6F1" stroke-width="5.5" stroke-linejoin="round"/>
+<circle cx="60" cy="73" r="10.5" fill="#C6A767"/>
+<path d="M60,64 V82 M64.1,67.7 C62.9,65.5 57.1,65.1 56.5,68.1 C55.9,71.3 64.1,70.1 63.6,73.6 C63.1,76.8 57.2,76.2 56,74.4" fill="none" stroke="#224142" stroke-width="2.7" stroke-linecap="round"/>
+</g>
 </svg>
